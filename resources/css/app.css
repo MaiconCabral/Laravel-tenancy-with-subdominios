@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.post-cover{
+    max-height: 173px;
+    width: 100%;
+}
