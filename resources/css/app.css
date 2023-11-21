@@ -7,3 +7,13 @@
     max-height: 173px;
     width: 100%;
 }
+
+.bg-green-500 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(34 197 94 / var(--tw-bg-opacity));
+}
+
+.bg-blue-500 {
+    --tw-bg-opacity: 1;
+    background-color: rgb(49 190 209 / var(--tw-bg-opacity));
+}

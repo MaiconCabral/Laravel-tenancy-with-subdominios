@@ -9,7 +9,7 @@ class Tenant extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['subdomain', 'nome', 'status'];
+    protected $fillable = ['subdomain', 'name', 'status'];
 
     public function users(){
         return $this->hasMany(User::class);

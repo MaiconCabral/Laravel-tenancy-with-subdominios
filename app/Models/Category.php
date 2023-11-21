@@ -6,14 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Tenant\Traits\TenantTrait;
 
-class Post extends Model
+class Category extends Model
 {
     use TenantTrait, HasFactory;
 
-    protected $fillable = ['tenant_id', 'user_id', 'category_id', 'title', 'body', 'cover'];
+    protected $fillable = ['tenant_id', 'name', 'description', 'cover'];
 
 
-    public function getUrlCoverAttribute()
+    public function getCatCoverAttribute()
     {
 
         if (!empty($this->cover)) {
@@ -23,16 +23,11 @@ class Post extends Model
         return 'https://placehold.co/300x150';
     }
 
-    public function user(){
-        return $this->belongsTo(User::class);
-    }
-    
-    public function category(){
-        return $this->belongsTo(Category::class);
+    public function post(){
+        return $this->hasMany(Post::class);
     }
     
     public function tenant(){
         return $this->belongsTo(Tenant::class);
     }
-
 }

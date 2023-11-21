@@ -6,7 +6,7 @@ use App\Tenant\ManagerTenant;
 use Closure;
 use Illuminate\Http\Request;
 
-class TenantMiddleware
+class SubdonainNotMain
 {
     /**
      * Handle an incoming request.
@@ -17,22 +17,14 @@ class TenantMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        // $manager = new ManagerTenant;
         $manager = app(ManagerTenant::class);
-        // dd($manager->subdomain());
-        $tenant = $manager->tenant();
-       
         
-        if(!$tenant && $request->url() != route('tenant.404')){
-            return redirect()->route('tenant.404');
-        }else if($tenant){
-            $this->setSession($tenant->only(['name', 'logo', 'color']));
-        }
-        
-        return $next($request);
-    }
+        if($manager->isSubdomainMain()){
+            abort(401);
 
-    public function setSession($tenant){
-        session()->put('tenant', $tenant);
+            return;
+        }
+
+        return $next($request);
     }
 }

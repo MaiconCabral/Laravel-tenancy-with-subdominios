@@ -13,6 +13,10 @@ class TenantScope implements Scope
     {
         // $tenant = $manager->tenant();
         // $posts = Post::where('tenant_id', $tenant->id)->get();
+        if(app()->runningInConsole()){
+            return;
+        }
+        
        $tenant = app(ManagerTenant::class)->indentify();
        $builder->where('tenant_id',$tenant);
 

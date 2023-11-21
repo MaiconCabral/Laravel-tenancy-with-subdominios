@@ -17,6 +17,9 @@ return new class extends Migration
             $table->id();
             $table->string('subdomain')->unique();
             $table->string('name')->unique();
+            $table->string('color')->nullable();
+            $table->string('logo')->nullable();
+            $table->string('folder')->nullable();
             $table->string('status')->default(true);
 
             $table->timestamps();

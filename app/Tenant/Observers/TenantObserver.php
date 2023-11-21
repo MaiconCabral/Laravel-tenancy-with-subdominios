@@ -10,6 +10,10 @@ class TenantObserver
 {
     public function creating(Model $model){
 
+        if(app()->runningInConsole()){
+            return;
+        }
+        
         $tenant = app(ManagerTenant::class)->indentify();
         $model->setAttribute('tenant_id',$tenant);
         

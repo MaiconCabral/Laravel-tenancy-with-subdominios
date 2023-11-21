@@ -3,12 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Models\Post;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use App\Tenant\ManagerTenant;
+use Illuminate\Http\Request;
 
-class PostController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,13 +15,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        // $tenant = $manager->tenant();
-        // $posts = Post::where('tenant_id', $tenant->id)->get();
+        $categories = Category::get();
 
-        $posts = Post::get();
-       
-
-        return view('posts.index', compact('posts'));
+        return view('categories.index', compact('categories'));
     }
 
     /**
@@ -33,9 +27,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::get();
-
-        return view('posts.create', compact('categories'));
+        return view('categories.create');
     }
 
     /**
@@ -46,25 +38,22 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // $post = Post::create($request->all());
-        
         $cover = '';
         if($request->cover){
             $coverPath = app(ManagerTenant::class)->coverPath();
             $file = $request->cover;
-            $path = $file->store($coverPath.'/post');
+            $path = $file->store($coverPath.'/category');
             $cover =  $path;
         }
         
-        auth()->user()->posts()->create([
-            'category_id' => $request['category'],
-            'title' => $request['title'],
-            'body' => $request['body'],
+        Category::create([
+            'name' => $request['name'],
+            'description' => $request['description'],
             'cover' => $cover,
+            'status' => $request['status'] ?? false,
         ]);
 
-        return redirect()->route('posts.index')->with('message', 'Cadastro realizado com sucesso!');
+        return redirect()->route('categories.index')->with('message', 'Cadastro realizado com sucesso!');
     }
 
     /**
@@ -110,13 +99,12 @@ class PostController extends Controller
     public function destroy($id)
     {
         if(empty($id)){
-            return redirect()->route('posts.index')->with('warning', 'Post não encontrado!');
+            return redirect()->route('categories.index')->with('warning', 'Categoria não encontrado!');
         }
 
-        $post = Post::find($id);
-        $post->delete();
+        $cat = Category::find($id);
+        $cat->delete();
 
-        return redirect()->route('posts.index')->with('message', 'Removido com sucesso!');
-    
+        return redirect()->route('categories.index')->with('message', 'Removido com sucesso!');
     }
 }

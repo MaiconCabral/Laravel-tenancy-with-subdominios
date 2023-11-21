@@ -29,7 +29,7 @@ class ManagerTenant
     public function coverPath(){
         $tenant = $this->tenant();
 
-        return $tenant->subdomain;
+        return $tenant->folder;
     }
 
     public function isSubdomainMain(){
